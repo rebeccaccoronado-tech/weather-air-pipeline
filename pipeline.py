@@ -32,7 +32,7 @@ def extract ():
             "latitude" : lat, 
             "longitude": lon, 
             "hourly": "temperature_2m,precipitation,wind_speed_10m",
-            "past_days": 1,
+            "past_days": PAST_DAYS,
             "forecast_days": 1, 
             "timezone": "auto", 
             "temperature_unit": "fahrenheit",
