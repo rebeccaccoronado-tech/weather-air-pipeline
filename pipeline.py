@@ -64,6 +64,52 @@ def extract ():
     air.to_csv("data/raw_air.csv", index=False)
     return weather, air
 #Stacks cities' tables into one tall table for both weather and air quality. Saves weather data as a file. Leaves out pandas' own row numbers ('false').
+# ------------Transform ---------
+def clean(df):
+    rows_before = len(df)
+    df["time"] = pd.to_datetime(df["time"])
+    df["date"] = df["time"].dt.date.astype(str)
+    df = df.drop_duplicates(subset=["city", "time"])
+    df = df.dropna()
+    newest_date = df.groupby("city")["date"]. transform("max")
+    df = df[df["date"] < newest_date]
+    print(" kept", len(df), "of", rows_before, "hourly rows")
+    return df
+
+def aqi_category(aqi) :
+    if aqi <= 50:
+        return "Good"
+    if aqi <= 100:
+        return "Moderate"
+    if aqi <= 150:
+        return "Unhealthy for Sensitive Groups"
+    if aqi <= 200:
+        return "Unhealthy"
+    if aqi <=300:
+        return "Very Unhealthy"
+    return "Hazardous"
+
+def transform(weather, air):
+    weather = clean(weather)
+    weather = weather[weather["temperature_2m"].between(-80, 135)]
+    daily_weather = weather.groupby(["city", "date"]).agg(
+        temp_avg_f=("temperature_2m", "mean"),
+        temp_max_f=("temperature_2m", "max"), 
+        temp_min_f=("temperature_2m", "min"),
+        precip_in=("precipitation", "sum"), 
+        wind_max_mph=("wind_speed_10m", "max"), 
+    ).round(1).reset_index()
+
+    air = clean(air)
+    daily_air = air.groupby(["city", "date"]).agg(
+        aqi_avg=("us_aqi", "mean"), 
+        aqi_max=("us_aqi", "max"), 
+        pm25_avg=("pm2_5", "mean"), 
+    ).round(1).reset_index()
+    daily_air["aqi_category"] = daily_air["aqi_max"].apply(aqi_category)
+    return daily_weather, daily_air
 # ----------- Run ----------
 weather, air = extract()
-print(weather.head())
+daily_weather, daily_air = transform(weather, air)
+print(daily_weather.head())
+print(daily_air.head())
