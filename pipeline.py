@@ -15,7 +15,7 @@ WEATHER_URL = "https://api.open-meteo.com/v1/forecast"
 AIR_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
 PAST_DAYS = 92
 
-# ----------- Step 1: Extract -----------
+# ----------- Extract -----------
 def fetch (url, params):
     response = requests.get(url, params=params, timeout=30)
     response.raise_for_status()
@@ -108,8 +108,27 @@ def transform(weather, air):
     ).round(1).reset_index()
     daily_air["aqi_category"] = daily_air["aqi_max"].apply(aqi_category)
     return daily_weather, daily_air
+#----------- Load ----------
+SUMMARY_QUERY = """
+SELECT w.date, w.city, 
+    w.temp_avg_f, w.temp_max_f, w.temp_min_f, w.precip_in, w.wind_max_mph,
+    a.aqi_avg, a.aqi_max, a.pm25_avg, a.aqi_category
+FROM daily_weather AS w
+JOIN daily_air AS a
+    ON a.city = w.city AND a.date = w.date
+ORDER BY w.date, w.city
+"""
+
+def load(daily_weather, daily_air) :
+    conn = sqlite3.connect("data/weather.db")
+    daily_weather.to_sql("daily_weather", conn, if_exists="replace", index=False)
+    daily_air.to_sql("daily_air", conn, if_exists="replace", index=False)
+    summary = pd.read_sql(SUMMARY_QUERY, conn)
+    summary.to_csv("data/daily_summary.csv", index=False)
+    conn.close()
+    print("Loaded", len(summary), "daily rows")
 # ----------- Run ----------
 weather, air = extract()
 daily_weather, daily_air = transform(weather, air)
-print(daily_weather.head())
-print(daily_air.head())
+load(daily_weather, daily_air)
+print("Done.")
