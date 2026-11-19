@@ -7,7 +7,7 @@ import requests
 # --------Settings ----------
 CITIES = {
     "Chicago": (41.88, -87.63),
-    "Devner": (39.74, -104.99), 
+    "Denver": (39.74, -104.99), 
     "Los Angeles": (34.05, -118.24),
     "St. Louis": (38.63, -90.20)
 }
