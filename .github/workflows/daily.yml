@@ -12,13 +12,13 @@ jobs:
  run:
   runs-on: ubuntu_latest
   steps:
-   -uses: actions/checkout@v4
-   -uses: actions/setup-python@v5
+   - uses: actions/checkout@v4
+   - uses: actions/setup-python@v5
     with:
      python-version: "3.15.2"
-   -run: pip install -r requirements.txt
-   -run:python pipeline.py
-   -name: Save the new data
+   - run: pip install -r requirements.txt
+   - run:python pipeline.py
+   - name: Save the new data
     run: |
      git config user.name "github-actions[bot]"
      git config user.email "github-
