@@ -1,8 +1,4 @@
 date,city,temp_avg_f,temp_max_f,temp_min_f,precip_in,wind_max_mph,aqi_avg,aqi_max,pm25_avg,aqi_category
-2026-08-25,Chicago,66.7,76.1,57.0,0.0,9.8,51.7,69,14.1,Moderate
-2026-08-25,Denver,73.2,84.2,60.5,0.0,11.4,54.1,89,9.5,Moderate
-2026-08-25,Los Angeles,80.9,95.6,69.8,0.0,8.8,83.5,87,28.6,Moderate
-2026-08-25,St. Louis,75.8,87.4,65.0,0.0,5.7,52.4,63,8.6,Moderate
 2026-08-26,Chicago,71.8,84.0,62.9,0.0,11.7,55.8,60,9.8,Moderate
 2026-08-26,Denver,71.4,89.7,59.7,0.0,10.1,58.3,82,11.4,Moderate
 2026-08-26,Los Angeles,83.9,98.8,71.9,0.0,9.9,87.2,90,30.7,Moderate
@@ -367,3 +363,7 @@ date,city,temp_avg_f,temp_max_f,temp_min_f,precip_in,wind_max_mph,aqi_avg,aqi_ma
 2026-11-24,Denver,38.2,55.1,24.1,0.0,7.0,55.8,59,14.1,Moderate
 2026-11-24,Los Angeles,61.9,74.9,51.0,0.0,6.8,65.3,69,17.2,Moderate
 2026-11-24,St. Louis,34.2,42.1,28.8,0.0,7.9,40.5,58,13.5,Moderate
+2026-11-25,Chicago,37.8,41.5,33.0,0.0,18.0,30.7,41,4.5,Good
+2026-11-25,Denver,35.7,50.9,23.9,0.0,6.7,62.5,64,16.0,Moderate
+2026-11-25,Los Angeles,63.3,75.5,52.7,0.0,5.7,65.5,67,15.1,Moderate
+2026-11-25,St. Louis,33.1,36.8,31.0,0.4,10.3,55.1,60,6.9,Moderate
